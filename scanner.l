@@ -2,6 +2,7 @@
 #include<stdio.h>
 #include<stdlib.h>
 #include<string.h>
+#include "symbol.h"
 #include "y.tab.h"
 %}
 
@@ -42,8 +43,8 @@ int	{return INT;}
 string	{return STRING;}
 extern	{return EXTERN;}
 
-[a-z]+	{yylval.a = strdup(yytext); return IDENT;}
-"-"[0-9]+|[0-9]+	{yylval.fn = atoi(yytext); return CONST_INT;}
+[a-zA-z]+[0-9]*	{yylval.a = strdup(yytext); return IDENT;}
+[0-9]+	{yylval.fn = atoi(yytext); return CONST_INT;}
 <STR>["]	{BEGIN 0;}
 ["]	{BEGIN STR;}
 <STR>.+/["]	{yylval.a = strdup(yytext); return CONST_STRING;}

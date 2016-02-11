@@ -1,0 +1,12 @@
+extern int foo2(int x);
+
+int foo(int count){
+	int sum = 0;
+	int i;
+	
+	for (i = 1; i <= count; i = i + 1)
+		sum = sum + foo2(i);
+	return sum;
+
+
+}

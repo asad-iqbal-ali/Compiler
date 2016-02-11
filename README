@@ -1,2 +1,16 @@
 Asad Ali
 Compilers Project 2
+
+files:
+	scanner.l: the lex file / scanner
+	parser.y: the yacc file / parser
+	test and test2:	the test input programs provided in class
+use:
+	"make" creates the executable "project2"
+	$./project2 < (input)
+
+output:
+
+	The parser will spit out a description of each expression, and print tables as they are destroyed, including what function the table may have been for.
+
+	

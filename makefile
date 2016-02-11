@@ -6,7 +6,7 @@ CC=gcc
 
 all: $(OUTPUT)
 
-$(OUTPUT): lex.yy.c y.tab.c y.tab.h
+$(OUTPUT): lex.yy.c y.tab.c y.tab.h symbol.h
 	$(CC) -o $(OUTPUT) lex.yy.c y.tab.c 
 
 lex.yy.c: $(LEXFILE)
