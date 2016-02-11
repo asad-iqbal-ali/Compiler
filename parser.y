@@ -115,7 +115,8 @@ type declarator_list ';' {tmp_sym = $2;
 					tmp_sym->type = $1;
 				}
 				tmp_sym2 = tmp_sym->next;
-				add_symbol(tmp_sym, local_table->table);
+				if(add_symbol(tmp_sym, local_table->table) == NULL)
+					return -1;
 				tmp_sym = tmp_sym2;
 				}
 				$$ = $2;}
@@ -369,10 +370,20 @@ expression_postfixee {$$=$1;}
 expression_postfixee :  
 primary_expression {$$=$1;}
 | IDENT '(' argument_expression_list')' {
+					arg *existing_test, *in_test;
 					 tmp_sym = find_symbol($1, local_table);
 					if(tmp_sym == NULL){
 					 yyerror("function not declared");
 					 return -1;
+					}
+					existing_test = tmp_sym->alist;
+					in_test = $3;
+					while(existing_test != NULL || in_test != NULL){
+			 			if(existing_test == NULL || in_test == NULL || existing_test->type !=  in_test->type ){
+							yyerror("function parameters do not match declaration");
+							return -1;
+						}
+						existing_test = existing_test->next; in_test = in_test->next;
 					}
 					 tmp_sym->alist = $3;
 					$$ = malloc(sizeof(arg));
@@ -520,9 +531,11 @@ symbol *add_symbol(symbol *symb, symbol **table){
 			}
 			existing_test = track->alist;
 			while(existing_test != NULL || in_test != NULL){
-			 if(existing_test == NULL || in_test == NULL || existing_test->type !=  in_test->type )
+			 if(existing_test == NULL || in_test == NULL || existing_test->type !=  in_test->type ){
 				yyerror("Conflicting function definitions");
 				return NULL;
+			 }
+			 existing_test = existing_test->next; in_test = in_test->next;
 			}
 			track->alist = symb->alist;
 			free(symb);
@@ -538,9 +551,11 @@ symbol *add_symbol(symbol *symb, symbol **table){
 			}
 			existing_test = track->alist;
 			while(existing_test != NULL || in_test != NULL){
-			 if(existing_test == NULL || in_test == NULL || existing_test->type !=  in_test->type )
+			 if(existing_test == NULL || in_test == NULL || existing_test->type !=  in_test->type ){
 				yyerror("Conflicting function definitions");
 				return NULL;
+			 }
+			 existing_test = existing_test->next; in_test = in_test->next;
 			}
 			track->alist = symb->alist;
 			free(symb);
