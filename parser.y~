@@ -1031,7 +1031,7 @@ void print_instructions(instr *block){
 	if(block->prev == NULL)
 		printf(".globl %s\n\t.type %s,@function\n%s:\n", block->function, block->function, block->function);
 
-	printf("  enter $%d, $0\n", block->stack_size);
+	printf("  enter $%d, $0," block->stack_size);
 
 
 

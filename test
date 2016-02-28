@@ -1,6 +1,5 @@
 extern int foo2(int x);
 
-int foo2(string x);
 
 int foo(int count){
 	int sum = 0;

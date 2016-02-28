@@ -47,7 +47,6 @@ typedef struct sym_table_ {
 	struct sym_table_ *prev;
 	struct sym_table_ *next;
 	int size;
-	int arg_size;
 } sym_table;
 
 typedef struct instr_{
